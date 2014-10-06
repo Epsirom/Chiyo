@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="vignette/icon">Resources/vignette.png</file>
+    </qresource>
+</RCC>

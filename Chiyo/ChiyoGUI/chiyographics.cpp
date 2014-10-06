@@ -8,8 +8,9 @@ ChiyoGraphics::ChiyoGraphics(QWidget *parent) :
     this->setBackgroundBrush(QBrush(QColor(100, 100, 100)));
     QGraphicsScene * scn = new QGraphicsScene(this);
     this->setScene(scn);
-    QPixmap pix(":/default_image");
-    setImage(pix);
+
+    //QPixmap pix(":/default_image");
+    //setImage(pix);
 
     this->grabGesture(Qt::PinchGesture);
 
@@ -48,7 +49,16 @@ bool ChiyoGraphics::pinchTriggered(QPinchGesture *g)
     {
         return false;
     }
-    scale(g->scaleFactor(), g->scaleFactor());
+    emit pinchZoom(g->scaleFactor());
     g->setScaleFactor(1.);
     return true;
+}
+
+qreal ChiyoGraphics::getFitScale()
+{
+    QRect myRect = rect();
+    QGraphicsScene* myScene = scene();
+    qreal wscale = qreal(myRect.width()) / myScene->width();
+    qreal hscale = qreal(myRect.height()) / myScene->height();
+    return wscale < hscale ? wscale : hscale;
 }

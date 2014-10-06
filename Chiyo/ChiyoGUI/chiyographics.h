@@ -12,11 +12,14 @@ public:
     void setImage(QPixmap& img);
     void setScale(qreal sx, qreal sy);
 
+    qreal getFitScale();
+
 protected:
     bool event(QEvent *event);
     bool pinchTriggered(QPinchGesture * g);
 
 signals:
+    void pinchZoom(qreal factor);
 
 public slots:
 

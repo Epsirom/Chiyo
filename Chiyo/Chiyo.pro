@@ -7,7 +7,8 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS += \
     ChiyoPlugins \
-    ChiyoGUI
+    ChiyoGUI \
+    ChiyoImageBase
 
 CHIYO_SUPPORTED_LANGUAGES = zh_CN en_US
 

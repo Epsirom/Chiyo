@@ -1,9 +1,10 @@
-#include "mainwindow.h"
+#include "chiyoloader.h"
 #include <QApplication>
 #include <QTranslator>
 #include <QLocale>
 #include <QDebug>
 
+#include "chiyoplugins.h"
 
 void loadLanguage(QTranslator& translator)
 {
@@ -25,8 +26,13 @@ int main(int argc, char *argv[])
     loadLanguage(t);
     a.installTranslator(&t);
 
-    MainWindow w;
-    w.show();
+    qRegisterMetaType<PluginAction>("PluginAction");
 
-    return a.exec();
+    ChiyoLoader* w = ChiyoLoader::instance();
+    w->show();
+
+    int rtn = a.exec();
+    delete w;
+
+    return rtn;
 }

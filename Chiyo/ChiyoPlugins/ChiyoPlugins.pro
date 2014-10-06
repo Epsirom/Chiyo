@@ -20,12 +20,19 @@ TEMPLATE = lib
 
 DEFINES += CHIYOPLUGINS_LIBRARY
 
-SOURCES += chiyoplugins.cpp
+SOURCES += chiyoplugins.cpp \
+    chiyopluginsloader.cpp \
+    chiyoconverter.cpp
 
 HEADERS += chiyoplugins.h\
-        chiyoplugins_global.h
+        chiyoplugins_global.h \
+    chiyopluginsloader.h \
+    chiyoconverter.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+RESOURCES += \
+    ChiyoPlugins.qrc

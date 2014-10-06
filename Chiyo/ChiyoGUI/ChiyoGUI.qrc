@@ -347,5 +347,7 @@
         <file>Resources/icons/zoom-original.png</file>
         <file>Resources/icons/zoom-out.png</file>
         <file alias="default_image">Resources/cnm.jpg</file>
+        <file alias="loading">Resources/loading.gif</file>
+        <file alias="loadingError">Resources/loadingError.png</file>
     </qresource>
 </RCC>

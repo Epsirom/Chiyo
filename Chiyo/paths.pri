@@ -17,3 +17,14 @@ use_opencv {
             -lopencv_flann \
             -lstdc++
 }
+
+chiyo_plugin {
+
+unix {
+    TARGET_OUTPUT_FILE = lib$${TARGET}.$${VERSION}.dylib
+
+    QMAKE_POST_LINK += cp $${OUT_PWD}/$${TARGET_OUTPUT_FILE} $${OUT_PWD}/../ChiyoGUI/Chiyo.app/Contents/ChiyoPlugins/
+
+}
+
+}
