@@ -7,6 +7,7 @@
 #include <QString>
 #include <QMap>
 #include <QAction>
+#include <QImage>
 
 #include <QMetaType>
 
@@ -21,18 +22,25 @@ Q_DECLARE_METATYPE(PluginAction)
 class ChiyoPluginsLoader;
 
 typedef void (*installPluginActionFunc)(PluginAction p);
+typedef QImage (*getImageFunc)();
 
 class CHIYOPLUGINSSHARED_EXPORT ChiyoPlugins
 {
 public:
     ChiyoPlugins();
     ~ChiyoPlugins();
+    static ChiyoPlugins* instance();
+
     void loadPlugins();
+    void setImageInterface(getImageFunc get_func);
 
     ChiyoPluginsLoader* get_loader();
 
+    getImageFunc get_qimage;
+
 private:
     ChiyoPluginsLoader* loader;
+
 
 };
 

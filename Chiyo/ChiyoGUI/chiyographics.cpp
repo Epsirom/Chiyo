@@ -62,3 +62,17 @@ qreal ChiyoGraphics::getFitScale()
     qreal hscale = qreal(myRect.height()) / myScene->height();
     return wscale < hscale ? wscale : hscale;
 }
+
+QImage ChiyoGraphics::getImage()
+{
+    auto scn = scene();
+    scn->clearSelection();
+    scn->setSceneRect(scn->itemsBoundingRect());
+
+    QImage img(scn->sceneRect().size().toSize(), QImage::Format_RGB32);
+    img.fill(QColor(255, 255, 255));
+
+    QPainter painter(&img);
+    scene()->render(&painter);
+    return img;
+}

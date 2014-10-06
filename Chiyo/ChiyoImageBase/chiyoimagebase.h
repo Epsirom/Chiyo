@@ -7,6 +7,12 @@
 #include <QMap>
 #include <QList>
 
+#include <opencv2/opencv.hpp>
+
+typedef cv::Mat (*getCvMatFunc)();
+
+extern "C" CHIYOIMAGEBASESHARED_EXPORT void install_image_interfaces(getCvMatFunc get_img);
+
 typedef struct PluginAction
 {
     QMap<QString, QString> setting;

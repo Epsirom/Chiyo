@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPixmap>
+#include <QImage>
 
 namespace Ui {
 class ChiyoControls;
@@ -17,6 +18,7 @@ public:
     ~ChiyoControls();
 
     void setImage(QPixmap &pic);
+    QImage getImage();
 
 private slots:
 

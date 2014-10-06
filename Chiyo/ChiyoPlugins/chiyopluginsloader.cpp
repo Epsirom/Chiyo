@@ -16,6 +16,11 @@ void ChiyoPluginsLoader::setInstallPluginActionFunc(installPluginActionFunc f)
     installPluginAction = f;
 }
 
+void ChiyoPluginsLoader::setGetImageFunc(getCvMatFunc f)
+{
+    get_img = f;
+}
+
 void ChiyoPluginsLoader::run()
 {
     QFileInfoList plugins = getTargetPluginFiles();
@@ -66,6 +71,9 @@ void ChiyoPluginsLoader::loadPlugin(QFileInfo plugin)
         emit pluginAction(pa);
         //installPluginAction(pa);
     }
+    typedef void (*InstallImageInterfacesFunc)(getCvMatFunc);
+    CHIYO_PLUGIN_RESOLVE_FUNC(install_image_interfaces, install_image_interfaces, InstallImageInterfacesFunc);
+    install_image_interfaces(get_img);
 }
 
 void ChiyoPluginsLoader::fail_load_library(QString filename)

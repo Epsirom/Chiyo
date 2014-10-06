@@ -3,6 +3,7 @@
 
 #include <QGesture>
 #include <QGraphicsView>
+#include <QImage>
 
 class ChiyoGraphics : public QGraphicsView
 {
@@ -11,6 +12,8 @@ public:
     explicit ChiyoGraphics(QWidget *parent = 0);
     void setImage(QPixmap& img);
     void setScale(qreal sx, qreal sy);
+
+    QImage getImage();
 
     qreal getFitScale();
 

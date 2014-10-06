@@ -7,6 +7,12 @@
 
 #include <QList>
 
+namespace cv
+{
+class Mat;
+}
+
+typedef cv::Mat (*getCvMatFunc)();
 
 class ChiyoPluginsLoader : public QThread
 {
@@ -15,6 +21,7 @@ public:
     explicit ChiyoPluginsLoader(QObject *parent = 0);
 
     void setInstallPluginActionFunc(installPluginActionFunc f);
+    void setGetImageFunc(getCvMatFunc f);
 
 protected:
     void run();
@@ -38,6 +45,8 @@ private:
     void fail_invalid_chiyo_plugin(QString filename);
 
     installPluginActionFunc installPluginAction;
+
+    getCvMatFunc get_img;
 };
 
 #endif // CHIYOPLUGINSLOADER_H

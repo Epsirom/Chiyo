@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSplitter>
+#include <QImage>
 
 namespace Ui {
 class ChiyoEditor;
@@ -21,6 +22,8 @@ public:
     bool loadImage(const QString &filename);
 
     void appendLog(const QString &log, int type);
+
+    QImage getImage();
 
 private:
     void setWindowTitleByFileName(const QString &filename);

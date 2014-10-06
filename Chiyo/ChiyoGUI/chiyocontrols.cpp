@@ -87,3 +87,8 @@ void ChiyoControls::pinch_zoom(qreal factor)
     scale *= factor;
     syncScale();
 }
+
+QImage ChiyoControls::getImage()
+{
+    return ui->graphicsView->getImage();
+}

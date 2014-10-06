@@ -54,3 +54,8 @@ void ChiyoEditor::appendLog(const QString &log, int type)
 {
     ui->console->appendLog(log, type);
 }
+
+QImage ChiyoEditor::getImage()
+{
+    return ui->controls->getImage();
+}

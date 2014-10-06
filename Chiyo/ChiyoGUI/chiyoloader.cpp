@@ -15,6 +15,16 @@ void __installPluginAction(PluginAction pa)
     MainWindow::instance()->installPluginAction(pa);
 }
 
+QImage __getImageInterface()
+{
+    return ChiyoLoader::getImage();
+}
+
+QImage ChiyoLoader::getImage()
+{
+    return MainWindow::instance()->activeMdiChild()->getImage();
+}
+
 ChiyoLoader* ChiyoLoader::instance(QWidget *parent)
 {
     static ChiyoLoader* _instance = 0;
@@ -28,10 +38,12 @@ ChiyoLoader* ChiyoLoader::instance(QWidget *parent)
 ChiyoLoader::ChiyoLoader(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChiyoLoader),
-    plugins_manager(),
     total_plugins(0),
     loaded_plugins(0)
 {
+    plugins_manager = ChiyoPlugins::instance();
+    plugins_manager->setImageInterface(__getImageInterface);
+
     ui->setupUi(this);
     ui->loadingErrors->setVisible(false);
     ui->loadingErrors->setStyleSheet("background: url(:/loadingError)");
@@ -45,7 +57,7 @@ ChiyoLoader::ChiyoLoader(QWidget *parent) :
     ui->loading->setMovie(movie);
     movie->start();
 
-    ChiyoPluginsLoader* pl = plugins_manager.get_loader();
+    ChiyoPluginsLoader* pl = plugins_manager->get_loader();
     connect(pl, &ChiyoPluginsLoader::setTotalPlugins, this, &ChiyoLoader::setTotalPlugins, Qt::QueuedConnection);
     connect(pl, &ChiyoPluginsLoader::currentPluginChanged, this, &ChiyoLoader::setCurrentLoadingPlugin, Qt::QueuedConnection);
     connect(pl, &ChiyoPluginsLoader::allPluginsLoaded, this, &ChiyoLoader::finishLoader, Qt::QueuedConnection);
@@ -55,7 +67,7 @@ ChiyoLoader::ChiyoLoader(QWidget *parent) :
 
     connect(pl, &ChiyoPluginsLoader::pluginAction, mainWindow, &MainWindow::installPluginAction, Qt::QueuedConnection);
 
-    plugins_manager.loadPlugins();
+    plugins_manager->loadPlugins();
 }
 
 ChiyoLoader::~ChiyoLoader()

@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include <QPoint>
+#include <QImage>
 
 #include "mainwindow.h"
 #include "chiyoplugins.h"
@@ -23,6 +24,8 @@ public:
 
     static ChiyoLoader* instance(QWidget *parent = 0);
 
+    static QImage getImage();
+
 protected:
     void mousePressEvent(QMouseEvent* e);
     void mouseMoveEvent(QMouseEvent* e);
@@ -37,7 +40,7 @@ private slots:
 
 private:
     Ui::ChiyoLoader *ui;
-    ChiyoPlugins plugins_manager;
+    ChiyoPlugins* plugins_manager;
 
     QPoint oldPos;
     QMovie *movie;

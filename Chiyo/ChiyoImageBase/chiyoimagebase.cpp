@@ -8,6 +8,13 @@
 
 #define tr QObject::tr
 
+getCvMatFunc getImage;
+
+void install_image_interfaces(getCvMatFunc get_img)
+{
+    getImage = get_img;
+}
+
 QList<PluginAction> initialize_plugin_actions()
 {
     QList<PluginAction> list;
@@ -36,4 +43,5 @@ PluginAction action_vignette()
 void action_vignette_triggered()
 {
     qDebug() << "Vignette!";
+    cv::Mat img(getImage());
 }
