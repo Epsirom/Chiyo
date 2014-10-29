@@ -6,9 +6,19 @@
 #include "chiyoconverter.h"
 #include <opencv2/opencv.hpp>
 
+#include <QImage>
+
 cv::Mat getCvMat()
 {
-    return Chiyo::Converter::QImageToCvMat(ChiyoPlugins::instance()->get_qimage());
+    QImage img = ChiyoPlugins::instance()->get_qimage();
+    if (img.isNull())
+        return cv::Mat();
+    return Chiyo::Converter::QImageToCvMat(img);
+}
+
+void setCvMat(cv::Mat mat)
+{
+    ChiyoPlugins::instance()->set_qimage(Chiyo::Converter::cvMatToQImage(mat));
 }
 
 ChiyoPlugins* ChiyoPlugins::instance()
@@ -33,6 +43,7 @@ ChiyoPlugins::~ChiyoPlugins()
 
 void ChiyoPlugins::loadPlugins()
 {
+    loader->wait();
     loader->start();
 }
 
@@ -41,8 +52,17 @@ ChiyoPluginsLoader* ChiyoPlugins::get_loader()
     return loader;
 }
 
-void ChiyoPlugins::setImageInterface(getImageFunc get_func)
+void ChiyoPlugins::setImageInterfaces(getImageFunc get_func, setImageFunc set_func)
 {
     get_qimage = get_func;
-    loader->setGetImageFunc(getCvMat);
+    set_qimage = set_func;
+    loader->setImageFuncs(getCvMat, setCvMat);
+}
+
+void ChiyoPlugins::setLogInterfaces(appendLogFunc info_func, appendLogFunc warning_func, appendLogFunc error_func)
+{
+    log_info = info_func;
+    log_warning = warning_func;
+    log_error = error_func;
+    loader->setLogFuncs(info_func, warning_func, error_func);
 }

@@ -5,9 +5,9 @@
 #-------------------------------------------------
 
 
-VERSION = 0.0.1
+VERSION = 0.0.2
 
-CONFIG += use_opencv
+CONFIG += use_opencv chiyo_framework
 
 include(../paths.pri)
 

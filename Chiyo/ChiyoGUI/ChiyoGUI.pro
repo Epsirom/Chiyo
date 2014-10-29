@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-VERSION = 0.0.1
+VERSION = 0.0.2
 
 CONFIG += use_opencv
 #CONFIG += release qscintilla2

@@ -19,6 +19,7 @@ public:
 
     void setImage(QPixmap &pic);
     QImage getImage();
+    bool saveImage(QString &path);
 
 private slots:
 

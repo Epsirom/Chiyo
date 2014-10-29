@@ -16,7 +16,7 @@ namespace Chiyo
             // 8-bit, 4 channel
             case CV_8UC4:
             {
-                QImage image( (const uchar*)(inMat.data), inMat.cols, inMat.rows, inMat.step, QImage::Format_RGB32 );
+                QImage image( (const uchar*)(inMat.data), inMat.cols, inMat.rows, inMat.step, QImage::Format_ARGB32 );
 
                 return image;
             }
@@ -61,12 +61,24 @@ namespace Chiyo
             return QPixmap::fromImage( cvMatToQImage( inMat ) );
         }
 
-        cv::Mat QImageToCvMat( const QImage &inImage, bool inCloneImageData )
+        cv::Mat QImageToCvMat( const QImage &inImage )
         {
+            QImage stdImage;
+            if (inImage.format() != QImage::Format_ARGB32)
+            {
+                stdImage = inImage.convertToFormat(QImage::Format_ARGB32);
+            }
+            else
+            {
+                stdImage = inImage.copy();
+            }
+            return cv::Mat( inImage.height(), inImage.width(), CV_8UC4, const_cast<uchar*>(inImage.bits()), inImage.bytesPerLine() ).clone();
+
+            /*
             switch ( inImage.format() )
             {
             // 8-bit, 4 channel
-            case QImage::Format_RGB32:
+            case QImage::Format_ARGB32:
             {
                 cv::Mat  mat( inImage.height(), inImage.width(), CV_8UC4, const_cast<uchar*>(inImage.bits()), inImage.bytesPerLine() );
 
@@ -94,18 +106,21 @@ namespace Chiyo
 
             default:
                 qWarning() << "Chiyo::Converter::QImageToCvMat() - QImage format not handled in switch:" << inImage.format();
+                QImage argb32Image = inImage.convertToFormat(QImage::Format_ARGB32);
+                return QImageToCvMat(argb32Image, inCloneImageData);
                 break;
             }
 
             return cv::Mat();
+            */
         }
 
         // If inPixmap exists for the lifetime of the resulting cv::Mat, pass false to inCloneImageData to share inPixmap's data
         // with the cv::Mat directly
         //    NOTE: Format_RGB888 is an exception since we need to use a local QImage and thus must clone the data regardless
-        cv::Mat QPixmapToCvMat( const QPixmap &inPixmap, bool inCloneImageData )
+        cv::Mat QPixmapToCvMat( const QPixmap &inPixmap )
         {
-            return QImageToCvMat( inPixmap.toImage(), inCloneImageData );
+            return QImageToCvMat( inPixmap.toImage() );
         }
     }
 }

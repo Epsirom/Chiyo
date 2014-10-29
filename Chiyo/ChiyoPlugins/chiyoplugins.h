@@ -23,6 +23,8 @@ class ChiyoPluginsLoader;
 
 typedef void (*installPluginActionFunc)(PluginAction p);
 typedef QImage (*getImageFunc)();
+typedef void (*setImageFunc)(QImage);
+typedef void (*appendLogFunc)(QString);
 
 class CHIYOPLUGINSSHARED_EXPORT ChiyoPlugins
 {
@@ -32,11 +34,16 @@ public:
     static ChiyoPlugins* instance();
 
     void loadPlugins();
-    void setImageInterface(getImageFunc get_func);
+    void setImageInterfaces(getImageFunc get_func, setImageFunc set_func);
+    void setLogInterfaces(appendLogFunc info_func, appendLogFunc warning_func, appendLogFunc error_func);
 
     ChiyoPluginsLoader* get_loader();
 
     getImageFunc get_qimage;
+    setImageFunc set_qimage;
+    appendLogFunc log_info;
+    appendLogFunc log_warning;
+    appendLogFunc log_error;
 
 private:
     ChiyoPluginsLoader* loader;

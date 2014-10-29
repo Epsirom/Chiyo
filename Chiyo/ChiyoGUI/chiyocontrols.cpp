@@ -26,6 +26,11 @@ void ChiyoControls::setImage(QPixmap &pic)
     ui->graphicsView->setImage(pic);
 }
 
+bool ChiyoControls::saveImage(QString &path)
+{
+    return ui->graphicsView->getImage().save(path);
+}
+
 void ChiyoControls::syncScale()
 {
     if (scale >= 5) {

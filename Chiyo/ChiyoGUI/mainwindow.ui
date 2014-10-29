@@ -74,6 +74,7 @@
      <string>File</string>
     </property>
     <addaction name="action_open_image"/>
+    <addaction name="action_save_as"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -85,6 +86,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_open_image"/>
+   <addaction name="action_save_as"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="leftToolBar">
@@ -111,6 +114,21 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_save_as">
+   <property name="icon">
+    <iconset resource="ChiyoGUI.qrc">
+     <normaloff>:/Resources/icons/filesaveas.png</normaloff>:/Resources/icons/filesaveas.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save as...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the image.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

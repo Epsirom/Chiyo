@@ -13,6 +13,7 @@ class Mat;
 }
 
 typedef cv::Mat (*getCvMatFunc)();
+typedef void (*setCvMatFunc)(cv::Mat);
 
 class ChiyoPluginsLoader : public QThread
 {
@@ -21,7 +22,10 @@ public:
     explicit ChiyoPluginsLoader(QObject *parent = 0);
 
     void setInstallPluginActionFunc(installPluginActionFunc f);
-    void setGetImageFunc(getCvMatFunc f);
+    void setImageFuncs(getCvMatFunc f, setCvMatFunc f2);
+    void setLogFuncs(appendLogFunc info_func, appendLogFunc warning_func, appendLogFunc error_func);
+
+    QString application_dir;
 
 protected:
     void run();
@@ -47,6 +51,13 @@ private:
     installPluginActionFunc installPluginAction;
 
     getCvMatFunc get_img;
+    setCvMatFunc set_img;
+    appendLogFunc log_info;
+    appendLogFunc log_warning;
+    appendLogFunc log_error;
+
+    // loading status
+    QFileInfoList plugins_toload;
 };
 
 #endif // CHIYOPLUGINSLOADER_H

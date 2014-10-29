@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, &MainWindow::appendLogSignal, this, &MainWindow::appendLog, Qt::QueuedConnection);
 
+    connect(ui->mdiArea, &QMdiArea::subWindowActivated, this, &MainWindow::updateMenus);
+
 }
 
 MainWindow::~MainWindow()
@@ -76,8 +78,31 @@ void MainWindow::appendLog(const QString &log, int type)
     if (!child)
     {
         qDebug() << "No image opened!" << log;
+        return;
     }
     child->appendLog(log, type);
+}
+
+QImage MainWindow::getImage()
+{
+    auto child = activeMdiChild();
+    if (!child)
+    {
+        qDebug() << "No image opened!";
+        return QImage();
+    }
+    return child->getImage();
+}
+
+void MainWindow::setImage(QImage img)
+{
+    auto child = activeMdiChild();
+    if (!child)
+    {
+        qDebug() << "No image opened!";
+        return;
+    }
+    child->setImage(img);
 }
 
 ChiyoEditor* MainWindow::activeMdiChild()
@@ -90,6 +115,7 @@ ChiyoEditor* MainWindow::activeMdiChild()
 void MainWindow::installPluginAction(PluginAction pa)
 {
     auto & setting = pa.setting;
+
     if (setting.contains("level_1_menu"))
     {
         QString level_1_menu = setting["level_1_menu"];
@@ -118,7 +144,9 @@ void MainWindow::installPluginAction(PluginAction pa)
         menu_action->setToolTip(pa.action->toolTip());
         connect(menu_action, &QAction::triggered, [=](){ pa.action->trigger(); });
         level_1_menu_ptr->addAction(menu_action);
+        pluginActions.append(menu_action);
     }
+
     if (setting.contains("add_to_left_toolbox") && setting["add_to_left_toolbox"] == "True")
     {
         ui->leftToolBar->addAction(pa.action);
@@ -126,5 +154,27 @@ void MainWindow::installPluginAction(PluginAction pa)
     if (setting.contains("add_to_top_toolbox") && setting["add_to_top_toolbox"] == "True")
     {
         ui->mainToolBar->addAction(pa.action);
+    }
+    pluginActions.append(pa.action);
+    updateMenus();
+    emit pluginActionInstalled();
+}
+
+void MainWindow::updateMenus()
+{
+    bool has_child = (activeMdiChild() != 0);
+    for (QAction* action : pluginActions)
+    {
+        action->setEnabled(has_child);
+    }
+    ui->action_save_as->setEnabled(has_child);
+}
+
+void MainWindow::on_action_save_as_triggered()
+{
+    auto child = activeMdiChild();
+    if (child)
+    {
+        child->saveAs();
     }
 }

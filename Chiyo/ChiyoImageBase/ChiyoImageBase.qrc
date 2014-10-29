@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file alias="vignette/icon">Resources/vignette.png</file>
+        <file alias="gaussian_blur/icon">Resources/gaussian_blur.png</file>
+        <file alias="median/icon">Resources/median.png</file>
+        <file alias="white_balance/icon">Resources/white_balance.png</file>
     </qresource>
 </RCC>

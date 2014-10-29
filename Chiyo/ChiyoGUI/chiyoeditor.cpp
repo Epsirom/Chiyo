@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include <QFileInfo>
+#include <QFileDialog>
 
 ChiyoEditor* ChiyoEditor::instance(QWidget *parent)
 {
@@ -23,6 +24,8 @@ ChiyoEditor::ChiyoEditor(int eid, QWidget *parent) :
 
     ui->splitterMain->setStretchFactor(0, 3);
     ui->splitterMain->setStretchFactor(1, 2);
+
+    ui->history->setVisible(false);
 }
 
 ChiyoEditor::~ChiyoEditor()
@@ -44,6 +47,25 @@ bool ChiyoEditor::loadImage(const QString &filename)
     return true;
 }
 
+bool ChiyoEditor::saveAs()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save as"), current_file, tr(AVAILABLE_SAVE_FILE_TYPES));
+    if (fileName.isEmpty())
+    {
+        return false;
+    }
+    if (!ui->controls->saveImage(fileName))
+    {
+        appendLog(tr("Save to %1 failed.").arg(fileName), CHIYO_LOG_INFO);
+        return false;
+    }
+    else
+    {
+        appendLog(tr("Successfullly saved to %1.").arg(fileName), CHIYO_LOG_INFO);
+        return true;
+    }
+}
+
 void ChiyoEditor::setWindowTitleByFileName(const QString &filename)
 {
     auto fileInfo = QFileInfo(filename);
@@ -58,4 +80,10 @@ void ChiyoEditor::appendLog(const QString &log, int type)
 QImage ChiyoEditor::getImage()
 {
     return ui->controls->getImage();
+}
+
+void ChiyoEditor::setImage(QImage &img)
+{
+    QPixmap pix = QPixmap::fromImage(img);
+    ui->controls->setImage(pix);
 }

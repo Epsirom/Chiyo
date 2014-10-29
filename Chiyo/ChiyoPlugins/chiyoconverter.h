@@ -14,8 +14,8 @@ namespace Chiyo
     {
         QImage cvMatToQImage( const cv::Mat &inMat );
         QPixmap cvMatToQPixmap( const cv::Mat &inMat );
-        cv::Mat QImageToCvMat( const QImage &inImage, bool inCloneImageData = true );
-        cv::Mat QPixmapToCvMat( const QPixmap &inPixmap, bool inCloneImageData = true );
+        cv::Mat QImageToCvMat( const QImage &inImage );
+        cv::Mat QPixmapToCvMat( const QPixmap &inPixmap );
     }
 }
 

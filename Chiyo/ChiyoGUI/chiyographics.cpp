@@ -1,6 +1,7 @@
 #include "chiyographics.h"
 
 #include <qDebug>
+#include <QGraphicsItem>
 
 ChiyoGraphics::ChiyoGraphics(QWidget *parent) :
     QGraphicsView(parent)
@@ -66,6 +67,11 @@ qreal ChiyoGraphics::getFitScale()
 QImage ChiyoGraphics::getImage()
 {
     auto scn = scene();
+    auto gitems = scn->items();
+    QGraphicsPixmapItem *item = (QGraphicsPixmapItem*)gitems[0];
+    return item->pixmap().toImage();
+
+    /*
     scn->clearSelection();
     scn->setSceneRect(scn->itemsBoundingRect());
 
@@ -75,4 +81,5 @@ QImage ChiyoGraphics::getImage()
     QPainter painter(&img);
     scene()->render(&painter);
     return img;
+    */
 }

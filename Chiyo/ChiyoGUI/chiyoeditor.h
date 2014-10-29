@@ -23,7 +23,10 @@ public:
 
     void appendLog(const QString &log, int type);
 
+    bool saveAs();
+
     QImage getImage();
+    void setImage(QImage &img);
 
 private:
     void setWindowTitleByFileName(const QString &filename);

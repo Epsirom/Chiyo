@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QFunctionPointer>
 
+#include <QCoreApplication>
+
 ChiyoPluginsLoader::ChiyoPluginsLoader(QObject *parent) :
     QThread(parent)
 {
@@ -16,9 +18,17 @@ void ChiyoPluginsLoader::setInstallPluginActionFunc(installPluginActionFunc f)
     installPluginAction = f;
 }
 
-void ChiyoPluginsLoader::setGetImageFunc(getCvMatFunc f)
+void ChiyoPluginsLoader::setImageFuncs(getCvMatFunc f, setCvMatFunc f2)
 {
     get_img = f;
+    set_img = f2;
+}
+
+void ChiyoPluginsLoader::setLogFuncs(appendLogFunc info_func, appendLogFunc warning_func, appendLogFunc error_func)
+{
+    log_info = info_func;
+    log_warning = warning_func;
+    log_error = error_func;
 }
 
 void ChiyoPluginsLoader::run()
@@ -35,7 +45,7 @@ void ChiyoPluginsLoader::run()
 
 QFileInfoList ChiyoPluginsLoader::getTargetPluginFiles()
 {
-    QDir dir(CHIYO_PLUGINS_PATH);
+    QDir dir(application_dir + CHIYO_PLUGINS_PATH);
     QStringList filters;
     // for mac
     filters << "*.dylib";
@@ -68,12 +78,15 @@ void ChiyoPluginsLoader::loadPlugin(QFileInfo plugin)
     QList<PluginAction> pas = initialize_plugin_actions();
     for (PluginAction &pa : pas)
     {
-        emit pluginAction(pa);
-        //installPluginAction(pa);
+        //emit pluginAction(pa);
+        installPluginAction(pa);
     }
-    typedef void (*InstallImageInterfacesFunc)(getCvMatFunc);
+    typedef void (*InstallImageInterfacesFunc)(getCvMatFunc, setCvMatFunc);
     CHIYO_PLUGIN_RESOLVE_FUNC(install_image_interfaces, install_image_interfaces, InstallImageInterfacesFunc);
-    install_image_interfaces(get_img);
+    install_image_interfaces(get_img, set_img);
+    typedef void (*InstallLogInterfacesFunc)(appendLogFunc, appendLogFunc, appendLogFunc);
+    CHIYO_PLUGIN_RESOLVE_FUNC(install_log_interfaces, install_log_interfaces, InstallLogInterfacesFunc);
+    install_log_interfaces(log_info, log_warning, log_error);
 }
 
 void ChiyoPluginsLoader::fail_load_library(QString filename)

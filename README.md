@@ -7,7 +7,7 @@ Chiyo: Multi-platform image post-processing tool.
 ### Dependencies
 Type | Dependency | Version |
 --- | --- | --- |
-OS | OS X | 10.9 |
+OS | OS X | 10.10 |
  | Windows | 8.1 |
  | Linux | Ubuntu 10.14 |
 UI Library | Qt | 5.3.2 |

@@ -24,7 +24,10 @@ public:
 
     static ChiyoLoader* instance(QWidget *parent = 0);
 
-    static QImage getImage();
+    void installPluginAction(PluginAction pa);
+
+signals:
+    void pluginAction(PluginAction pa);
 
 protected:
     void mousePressEvent(QMouseEvent* e);

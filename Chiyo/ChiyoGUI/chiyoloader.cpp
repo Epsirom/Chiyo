@@ -12,17 +12,32 @@
 
 void __installPluginAction(PluginAction pa)
 {
-    MainWindow::instance()->installPluginAction(pa);
+    ChiyoLoader::instance()->installPluginAction(pa);
 }
 
 QImage __getImageInterface()
 {
-    return ChiyoLoader::getImage();
+    return MainWindow::instance()->getImage();
 }
 
-QImage ChiyoLoader::getImage()
+void __setImageInterface(QImage img)
 {
-    return MainWindow::instance()->activeMdiChild()->getImage();
+    MainWindow::instance()->setImage(img);
+}
+
+void __logInfoInterface(QString info)
+{
+    MainWindow::instance()->appendInfo(info);
+}
+
+void __logWarningInterface(QString warning)
+{
+    MainWindow::instance()->appendWarning(warning);
+}
+
+void __logErrorInterface(QString error)
+{
+    MainWindow::instance()->appendError(error);
 }
 
 ChiyoLoader* ChiyoLoader::instance(QWidget *parent)
@@ -42,12 +57,13 @@ ChiyoLoader::ChiyoLoader(QWidget *parent) :
     loaded_plugins(0)
 {
     plugins_manager = ChiyoPlugins::instance();
-    plugins_manager->setImageInterface(__getImageInterface);
+    plugins_manager->setImageInterfaces(__getImageInterface, __setImageInterface);
+    plugins_manager->setLogInterfaces(__logInfoInterface, __logWarningInterface, __logErrorInterface);
 
     ui->setupUi(this);
     ui->loadingErrors->setVisible(false);
     ui->loadingErrors->setStyleSheet("background: url(:/loadingError)");
-    mainWindow = MainWindow::instance(this);
+    mainWindow = MainWindow::instance();
 
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
@@ -58,6 +74,7 @@ ChiyoLoader::ChiyoLoader(QWidget *parent) :
     movie->start();
 
     ChiyoPluginsLoader* pl = plugins_manager->get_loader();
+    pl->application_dir = QCoreApplication::applicationDirPath() + "/";
     connect(pl, &ChiyoPluginsLoader::setTotalPlugins, this, &ChiyoLoader::setTotalPlugins, Qt::QueuedConnection);
     connect(pl, &ChiyoPluginsLoader::currentPluginChanged, this, &ChiyoLoader::setCurrentLoadingPlugin, Qt::QueuedConnection);
     connect(pl, &ChiyoPluginsLoader::allPluginsLoaded, this, &ChiyoLoader::finishLoader, Qt::QueuedConnection);
@@ -65,7 +82,8 @@ ChiyoLoader::ChiyoLoader(QWidget *parent) :
 
     pl->setInstallPluginActionFunc(__installPluginAction);
 
-    connect(pl, &ChiyoPluginsLoader::pluginAction, mainWindow, &MainWindow::installPluginAction, Qt::QueuedConnection);
+    connect(this, &ChiyoLoader::pluginAction, mainWindow, &MainWindow::installPluginAction, Qt::QueuedConnection);
+    //connect(pl, &ChiyoPluginsLoader::pluginAction, mainWindow, &MainWindow::installPluginAction, Qt::QueuedConnection);
 
     plugins_manager->loadPlugins();
 }
@@ -75,6 +93,11 @@ ChiyoLoader::~ChiyoLoader()
     delete ui;
     delete mainWindow;
     delete movie;
+}
+
+void ChiyoLoader::installPluginAction(PluginAction pa)
+{
+    emit pluginAction(pa);
 }
 
 void ChiyoLoader::mousePressEvent(QMouseEvent *e)
