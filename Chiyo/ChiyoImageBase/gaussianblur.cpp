@@ -65,7 +65,7 @@ void get_gaussian_queue(double sigma, std::vector<double> &queue, int max_queue_
 {
     queue.clear();
     double max_g = __gaussian(0, 0, sigma);
-    double min_g = max_g * 0.1;
+    double min_g = max_g * 0.01;
     int x = 0;
     double tmp = max_g;
     while (x < max_queue_size && tmp > min_g)

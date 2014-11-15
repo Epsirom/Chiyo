@@ -57,5 +57,5 @@ DEPENDPATH += $$PWD/../ChiyoPlugins
 
 unix {
     #QMAKE_POST_LINK += install_name_tool -change libqscintilla2.11.dylib $$[QT_INSTALL_LIBS]/libqscintilla2.11.dylib $(TARGET);
-    QMAKE_POST_LINK += install_name_tool -change libChiyoPlugins.0.dylib $$OUT_PWD/../ChiyoPlugins/libChiyoPlugins.0.dylib $(TARGET);
+    #QMAKE_POST_LINK += install_name_tool -change libChiyoPlugins.0.dylib $$OUT_PWD/../ChiyoPlugins/libChiyoPlugins.0.dylib $(TARGET);
 }
