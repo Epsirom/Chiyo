@@ -5,6 +5,9 @@
 #include <opencv2/opencv.hpp>
 #include "chiyoimagebase.h"
 
+double gaussian_func(double x2, double sigma);
+double __gaussian(double x, double y, double sigma);
+
 namespace Ui {
 class GaussianBlur;
 }
@@ -18,6 +21,8 @@ public:
     void initialize(cv::Mat source);
     ~GaussianBlur();
     cv::Mat getResult();
+
+    void setRadius(double radius);
 
 public slots:
     void applyResult();

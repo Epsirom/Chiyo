@@ -15,6 +15,7 @@ class Vignette : public QDialog
 
 public:
     explicit Vignette(QWidget *parent = 0);
+    Vignette(cv::Mat source, double radius = 0, double power = 0, double center_row = -1, double center_col = -1);
     void initialize(cv::Mat source);
     ~Vignette();
     cv::Mat getResult();

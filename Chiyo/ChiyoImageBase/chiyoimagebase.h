@@ -6,6 +6,7 @@
 #include <QAction>
 #include <QMap>
 #include <QList>
+#include <QPixmap>
 
 #include <opencv2/opencv.hpp>
 
@@ -30,6 +31,7 @@ typedef struct PluginAction
 
 PluginAction action_vignette();
 void action_vignette_triggered();
+
 PluginAction action_white_balance();
 void action_white_balance_triggered();
 PluginAction action_median();
@@ -37,7 +39,32 @@ void action_median_triggered();
 PluginAction action_gaussian_blur();
 void action_gaussian_blur_triggered();
 
+PluginAction action_saturation();
+void action_saturation_triggered();
+PluginAction action_sharpen();
+void action_sharpen_triggered();
+PluginAction action_liquefied();
+void action_liquefied_triggered();
+
+PluginAction action_beautiful();
+void action_beautiful_triggered();
+PluginAction action_lomo();
+void action_lomo_triggered();
+
+PluginAction action_inpainting();
+void action_inpainting_triggered();
+
 extern "C" CHIYOIMAGEBASESHARED_EXPORT QList<PluginAction> initialize_plugin_actions();
+
+QImage cvMatToQImage( const cv::Mat &inMat );
+QPixmap cvMatToQPixmap( const cv::Mat &inMat );
+
+int intMin(int a, int b);
+int intMax(int a, int b);
+int intAbs(int a);
+int intSqr(int a);
+double doubleSqr(double a);
+double doubleMin(double a, double b);
 
 //extern const char* CHIYOIMAGEBASESHARED_EXPORT plugin_actions_name;
 

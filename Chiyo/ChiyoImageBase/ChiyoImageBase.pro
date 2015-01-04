@@ -20,14 +20,30 @@ SOURCES += chiyoimagebase.cpp \
     vignette.cpp \
     white_balance.cpp \
     median.cpp \
-    gaussianblur.cpp
+    gaussianblur.cpp \
+    saturation.cpp \
+    liquefied.cpp \
+    sharpen.cpp \
+    liquefiedgraphicsview.cpp \
+    lomo.cpp \
+    beautiful.cpp \
+    inpaintingthread.cpp \
+    inpainting.cpp
 
 HEADERS += chiyoimagebase.h\
         chiyoimagebase_global.h \
     vignette.h \
     white_balance.h \
     median.h \
-    gaussianblur.h
+    gaussianblur.h \
+    saturation.h \
+    liquefied.h \
+    sharpen.h \
+    liquefiedgraphicsview.h \
+    lomo.h \
+    beautiful.h \
+    inpaintingthread.h \
+    inpainting.h
 
 unix {
     target.path = /usr/lib
@@ -39,4 +55,8 @@ RESOURCES += \
 
 FORMS += \
     vignette.ui \
-    gaussianblur.ui
+    gaussianblur.ui \
+    saturation.ui \
+    liquefied.ui \
+    lomo.ui \
+    inpainting.ui

@@ -15,6 +15,34 @@ Vignette::Vignette(QWidget *parent) :
     initialize(getImage());
 }
 
+Vignette::Vignette(cv::Mat source, double radius, double power, double center_row, double center_col) :
+    QDialog(),
+    ui(0),
+    _center_col(center_col),
+    _center_row(center_row),
+    _radius(radius),
+    _power(power),
+    _source(source.clone())
+{
+    if (radius == 0)
+    {
+        _radius = 1.0;
+    }
+    if (power == 0)
+    {
+        _power = 0.8;
+    }
+    auto source_size = source.size();
+    if (center_row < 0)
+    {
+        _center_row = source_size.height / 2.0;
+    }
+    if (center_col < 0)
+    {
+        _center_col = source_size.width / 2.0;
+    }
+}
+
 Vignette::~Vignette()
 {
     delete ui;

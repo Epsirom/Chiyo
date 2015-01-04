@@ -15,6 +15,7 @@ use_opencv {
             -lopencv_features2d \
             -lopencv_nonfree \
             -lopencv_flann \
+            -lopencv_objdetect \
             -lstdc++
 }
 

@@ -34,6 +34,15 @@ void GaussianBlur::applyResult()
     setImage(getResult());
 }
 
+void GaussianBlur::setRadius(double radius)
+{
+    if (radius != _radius)
+    {
+        _radius = radius;
+        _kernel = getGaussianKernel();
+    }
+}
+
 void GaussianBlur::on_radius_valueChanged(int value)
 {
     _radius = value / 100.0;
@@ -54,6 +63,11 @@ void GaussianBlur::on_GaussianBlur_rejected()
 {
     setImage(_source);
     logInfo(tr("Gaussian blur canceled."));
+}
+
+double gaussian_func(double x2, double sigma)
+{
+    return exp(-x2 / 2 / sigma / sigma);
 }
 
 double __gaussian(double x, double y, double sigma)

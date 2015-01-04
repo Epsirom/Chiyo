@@ -4,5 +4,11 @@
         <file alias="gaussian_blur/icon">Resources/gaussian_blur.png</file>
         <file alias="median/icon">Resources/median.png</file>
         <file alias="white_balance/icon">Resources/white_balance.png</file>
+        <file alias="liquefied/icon">Resources/liquefied.png</file>
+        <file alias="sharpen/icon">Resources/sharpen.png</file>
+        <file alias="saturation/icon">Resources/saturation.png</file>
+        <file alias="beautiful/icon">Resources/beautiful.png</file>
+        <file alias="lomo/icon">Resources/lomo.png</file>
+        <file alias="inpainting/icon">Resources/inpainting.png</file>
     </qresource>
 </RCC>
